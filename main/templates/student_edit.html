@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% block title %} Student Edit Information {% endblock %} 
+{% block body %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-12 mx-auto flex flex-wrap justify-center">
+      <form
+        action=""
+        method="post"
+        enctype="multipart/form-data"
+  
+        class="w-1/2"
+      >
+      {% csrf_token %}
+        
+        <h2
+          class="ext-gray-600 text-lg font-medium title-font mb-5"
+          style="font-size: 30px; line-height: 35px"
+        >
+          Edit student Details
+        </h2>
+        <div class="relative mb-4">
+          <label for="profile" class="leading-7 text-sm text-gray-600"
+            >Profile</label
+          >
+          <img src="{{ profile.url }}" alt="Staff Profile" width="100" />
+          <input type="file" class="my-2" name="profile" id="profile_image" />
+        </div>
+        <div class="relative mb-4">
+          <label for="firstname" class="leading-7 text-sm text-gray-600"
+            >First name</label
+          >
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            value="{{fname}}"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="Eric"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="lastname" class="leading-7 text-sm text-gray-600"
+            >Last name</label
+          >
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            value="{{lname}}"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="shah"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{email}}"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="Example@gmail.com"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="mobile" class="leading-7 text-sm text-gray-600"
+            >Mobile</label
+          >
+          <input
+            type="text"
+            id="mobile"
+            name="mobile"
+            value="{{mobile}}"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="(+1) 123-4444-765"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="gender" class="leading-7 text-sm text-gray-600"
+            >Gender</label
+          >
+          <input type="radio" id="gender" name="gender" value="Male" /> Male
+          <input type="radio" id="gender" name="gender" value="Female" /> Female
+          <input type="radio" id="gender" name="gender" value="Other" /> Other
+        </div>
+        <div class="relative mb-4">
+          <label for="dob" class="leading-7 text-sm text-gray-600"
+            >Date of birth</label
+          >
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            value="{{dob}}"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="course" class="leading-7 text-sm text-gray-600"
+            >Choose course</label
+          >
+          <select
+            name="course"
+            id="course"
+            class="w-full bg-white rounded border border-gray-300 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          >
+            <option value="python">python</option>
+            <option value="c">c</option>
+            <option value="c++">c++</option>
+            <option value="java">java</option>
+          </select>
+        </div>
+  
+        <button
+          type="submit"
+          class="text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </section>
+{% endblock%}

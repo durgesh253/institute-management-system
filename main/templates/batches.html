@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block title %} Batches {% endblock %} 
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch List</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  
+
+    <div class="container mx-auto p-8">
+      <div class="mb-4">
+        <a href="{% url 'create_batch' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create Batch
+        </a>
+      </div>
+        <h1 class="text-3xl font-bold mb-4">Batch List</h1>
+        <ul>
+            {% for batch in batches %}
+                <li class="mb-4 p-4 border-2 rounded">
+                    <p class="text-xl font-semibold">Batch Name: {{ batch.batch_name }}</p>
+                    <p class="text-lg">Faculty:  {{ batch.faculty.first_name }} {{ batch.faculty.last_name }}
+                    </p>
+                    <p>Start Time: {{ batch.start_time }}</p>
+                    <p>End Time: {{ batch.end_time }}</p>
+                    
+                    <!-- <ul class="ml-4 mt-2">
+                        <li class="font-semibold">Students:</li>
+                        <ul class="ml-4">
+                            {% for student in batch.students.all %}
+                                <li>{{ student.first_name }} - {{ student.last_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </ul> -->
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>
+
+{% endblock %}

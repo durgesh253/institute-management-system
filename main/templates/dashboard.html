@@ -1,0 +1,227 @@
+{% extends 'base.html' %} {% block title %} Dashbaord {% endblock %} 
+{% block body %}
+{% if request.session.role == 'counsellor' %}
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-12 mx-auto">
+    <div class="flex flex-wrap lg:w-full sm:mx-auto sm:mb-2 -mx-2">
+      <div class="p-2 sm:w-1/4 w-full">
+        <div class="bg-gray-100 rounded flex p-4 h-full">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="text-gray-500 w-6 h-6 flex-shrink-0 mr-4"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+            <path d="M22 4L12 14.01l-3-3"></path>
+          </svg>
+          <span class="title-font font-medium"
+            >Students - <span class="text-gray-500 bg-white p-2 rounded-full border border-gray-200">{{total_students}}</span></span
+          >
+        </div>
+      </div>
+      <div class="p-2 sm:w-1/4 w-full">
+        <div class="bg-gray-100 rounded flex p-4 h-full items-center">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="text-gray-500 w-6 h-6 flex-shrink-0 mr-4"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+            <path d="M22 4L12 14.01l-3-3"></path>
+          </svg>
+          <span class="title-font font-medium"
+            >Staff - <span class="text-gray-500 bg-white p-2 rounded-full border border-gray-200">{{total_employee}}</span></span
+          >
+        </div>
+      </div>
+      <div class="p-2 sm:w-1/4 w-full">
+        <div class="bg-gray-100 rounded flex p-4 h-full items-center">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="text-gray-500 w-6 h-6 flex-shrink-0 mr-4"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+            <path d="M22 4L12 14.01l-3-3"></path>
+          </svg>
+          <span class="title-font font-medium"
+            >Courses - <span class="text-gray-500 bg-white p-2 rounded-full border border-gray-200">{{total_batches}}</span></span
+          >
+        </div>
+      </div>
+      <div class="p-2 sm:w-1/4 w-full">
+        <div class="bg-gray-100 rounded flex p-4 h-full items-center">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="text-gray-500 w-6 h-6 flex-shrink-0 mr-4"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+            <path d="M22 4L12 14.01l-3-3"></path>
+          </svg>
+          <span class="title-font font-medium"
+            >Requests - <span class="text-gray-500 bg-white p-2 rounded-full border border-gray-200">{{total_request}}</span></span
+          >
+        </div>
+      </div>
+    </div>
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-12 mx-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Emploee ID</th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Fullname</th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">From Date</th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">To Date</th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Reason</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for facultie in faculties_leaves %}
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.employee_id}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.employee_id.first_name|title}} {{faculties_leave.employee_id.last_name|title}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.duration|upper}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.from_date}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.to_date}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.reason|title}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <caption style="text-align: left; padding: 0 1rem; font-weight: bold; font-size: 30px;">Faculties on Leave</caption>
+        </table>
+        
+      </div>
+    </section>
+    <div
+      class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
+    >
+      <form action="{% url 'student_register_view' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
+          Student Registration Form
+        </h2>
+        <div class="relative mb-4">
+          <label for="profile" class="leading-7 text-sm text-gray-600"
+            >Profile</label
+          >
+          <input
+            type="file"
+            id="profile"
+            name="profile"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="firstname" class="leading-7 text-sm text-gray-600"
+            >First name</label
+          >
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="Eric"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="lastname" class="leading-7 text-sm text-gray-600"
+            >Last name</label
+          >
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="shah"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="email" class="leading-7 text-sm text-gray-600"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="Example@gmail.com"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="mobile" class="leading-7 text-sm text-gray-600"
+            >Mobile</label
+          >
+          <input
+            type="text"
+            id="mobile"
+            name="mobile"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="(+1) 123-4444-765"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="gender" class="leading-7 text-sm text-gray-600"
+            >Gender</label
+          >
+          <input type="radio" id="gender" name="gender" value="Male"/> Male
+          <input type="radio" id="gender" name="gender" value="Female"/> Female
+          <input type="radio" id="gender" name="gender" value="Other" /> Other
+        </div>
+        <div class="relative mb-4">
+          <label for="dob" class="leading-7 text-sm text-gray-600"
+            >Date of birth</label
+          >
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+        <div class="relative mb-4">
+          <label for="course" class="leading-7 text-sm text-gray-600"
+            >Choose course</label
+          >
+          <select
+            name="course"
+            id="course"
+            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          >
+            <option value="python">python</option>
+            <option value="c">c</option>
+            <option value="c++">c++</option>
+            <option value="java">java</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
