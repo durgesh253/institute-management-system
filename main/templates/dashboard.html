@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block title %} Dashbaord {% endblock %} 
 {% block body %}
-{% if request.session.role == 'counsellor' %}
+<!-- {% if request.session.role == 'counsellor' %} -->
 <section class="text-gray-600 body-font">
   <div class="container px-5 py-12 mx-auto">
     <div class="flex flex-wrap lg:w-full sm:mx-auto sm:mb-2 -mx-2">
@@ -82,35 +82,76 @@
       </div>
     </div>
     <section class="text-gray-600 body-font">
-      <div class="container px-5 py-12 mx-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Emploee ID</th>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Fullname</th>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">From Date</th>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">To Date</th>
-              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Reason</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            {% for facultie in faculties_leaves %}
-            <tr>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.employee_id}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.employee_id.first_name|title}} {{faculties_leave.employee_id.last_name|title}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.duration|upper}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.from_date}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.to_date}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap">{{facultie.reason|title}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-          <caption style="text-align: left; padding: 0 1rem; font-weight: bold; font-size: 30px;">Faculties on Leave</caption>
-        </table>
-        
-      </div>
-    </section>
+      <div class="container px-5 py-12 mx-auto flex flex-wrap">
+        <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+          <section class="text-gray-600 body-font">
+            <div class="container px-5 py-12 mx-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Fullname</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Mobile</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  {% for student in students_5_records %}
+                  <tr>
+                    <td class="px-6 py-4 whitespace-no-wrap">
+                      <img
+                        src="{{student.profile.url}}"
+                        class="user-avatar mr-3 h-6 sm:h-9"
+                        alt="Flowbite Logo"
+                      />
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{student.first_name}} {{student.last_name}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{student.mobile}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{student.gender}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{student.course}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <caption style="text-align: left; padding: 0 1rem; font-weight: bold; font-size: 30px;">Latest students</caption>
+              </table>
+              
+            </div>
+          </section>
+          
+          <section class="text-gray-600 body-font">
+            <div class="container px-5 py-12 mx-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Emploee ID</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Fullname</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">From Date</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">To Date</th>
+                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Reason</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  {% for faculties_leave in faculties_leaves %}
+                  <tr>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.employee_id.employee_id}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.employee_id.first_name|title}} {{faculties_leave.employee_id.last_name|title}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.duration|upper}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.from_date}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.to_date}}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap">{{faculties_leave.reason|title}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <caption style="text-align: left; padding: 0 1rem; font-weight: bold; font-size: 30px;">Faculties on Leave</caption>
+              </table>
+              
+            </div>
+          </section>
+          
+        </div>
+    
     <div
       class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
     >
@@ -223,5 +264,5 @@
     </div>
   </div>
 </section>
-{% endif %}
+<!-- {% endif %} -->
 {% endblock %}

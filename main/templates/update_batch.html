@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Batch</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+    
+    <div class="max-w-md mx-auto bg-white p-8 rounded-md shadow-md">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Update Batch</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="batch_name" class="block text-gray-600">Batch Name:</label>
+                <input type="text" name="batch_name" class="w-full border-2 border-gray-300 p-2 rounded-md" value="{{ batch.batch_name }}" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="faculty" class="block text-gray-600">Faculty:</label>
+                <select name="faculty" class="w-full border-2 border-gray-300 p-2 rounded-md" required>
+                    {% for faculty in faculty_list %}
+                        <option value="{{ faculty.id }}" {% if faculty.id == batch.faculty.id %}selected{% endif %}>
+                            {{ faculty.first_name }} {{ faculty.last_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="students" class="block text-gray-600">Students:</label>
+                <select name="students" class="w-full border-2 border-gray-300 p-2 rounded-md" multiple required>
+                    {% for student in student_list %}
+                        <option value="{{ student.id }}" {% if student in batch.students.all %}selected{% endif %}>
+                            {{ student.first_name }} - {{ student.last_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="start_time" class="block text-gray-600">Start Time:</label>
+                <input type="datetime-local" name="start_time" class="w-full border-2 border-gray-300 p-2 rounded-md" value="{{ batch.start_time|date:'Y-m-d\TH:i' }}" required>
+            </div>
+
+            <div class="mb-6">
+                <label for="end_time" class="block text-gray-600">End Time:</label>
+                <input type="datetime-local" name="end_time" class="w-full border-2 border-gray-300 p-2 rounded-md" value="{{ batch.end_time|date:'Y-m-d\TH:i' }}" required>
+            </div>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Update Batch</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from main.utils import file_helpers
+
 import string
 import random
 
@@ -26,7 +27,9 @@ class role(BaseModel):
         super(role, self).save(*args, **kwargs)
 
 class employee(BaseModel):
-    profile = models.ImageField(upload_to=file_helpers.custom_file_name, default='default-images\Ellipse_2.png')
+    DIR_NAME = 'profile'
+    FILENAME_WORD = 'dp'
+    profile = models.ImageField(upload_to='employees', default='default_images\Ellipse_2.png')
     employee_id = models.CharField(max_length=10, unique=True, editable=False)
     role = models.ForeignKey(role, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
@@ -104,9 +107,19 @@ class Batch(models.Model):
     students = models.ManyToManyField(StudentRegistration)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    
+    
 
     
     def __str__(self):
         return self.batch_name
+
+class Socials(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    profile = models.ImageField(upload_to='social_iamge/',)
+
+    def __str__(self):
+        return f"Post #{self.id}"
 
     

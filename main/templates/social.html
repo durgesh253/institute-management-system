@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+{% block title %} Social {% endblock %} 
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media</title>
+    <!-- Include Tailwind CSS (you can use a CDN or install locally) -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4 ">
+        <h1 class="text-3xl font-bold mb-6 text-blue-600">Social Posts</h1>
+        <a href="{% url 'create_post' %}" class="bg-pink-500 text-white px-4 py-2 rounded mb-4 ">Create Post</a>
+        {% for social in socials %}
+            <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center justify-between mt-4">
+                <div class="flex items-center">
+                    <img src="{{ social.profile.url }}" alt="Profile Image" class="w-56 h-56  mr-4">
+                    <div>
+                        <p class="text-lg text-gray-800">{{ social.content }}</p>
+                        <p class="text-gray-500 text-sm">{{ social.created_at }}</p>
+                    </div>
+                </div>
+                {% if request.session.role == 'counsellor' %}
+                <a href="{% url 'edit_post'  social.id %}" class="bg-green-500 text-white px-4 py-2 m-2 rounded">Update</a>
+                <a   href="{% url 'post_delete' social.id  %}" class="bg-red-500 text-white px-4 py-2 rounded">Delete</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock %}

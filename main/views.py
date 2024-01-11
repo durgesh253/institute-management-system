@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .models import employee, StudentRegistration,LeaveRequest,LeaveType,Batch
+from django.shortcuts import render, redirect,get_object_or_404
+from .models import employee, StudentRegistration,LeaveRequest,LeaveType,Batch,Socials
 from django.contrib import messages
 from django.conf import settings
 import random
@@ -124,6 +124,7 @@ def resend_otp(request):
         
 def dashboard_view(request):
     total_students = StudentRegistration.objects.count()
+    students_5_records = StudentRegistration.objects.all().order_by('-id')[:5]
     total_employee = employee.objects.count() 
     total_batches = Batch.objects.count()
     total_request = LeaveRequest.objects.count()
@@ -136,6 +137,7 @@ def dashboard_view(request):
         'total_batches' : total_batches,
         'total_request' : total_request,
         'faculties_leaves':faculties_leaves,
+        'students_5_records':students_5_records,
          
     }
     return render(request, 'dashboard.html',context)
@@ -249,28 +251,22 @@ def my_request(request):
     }
 
     return render(request, 'my-request.html', context)
-
 def batches(request):
-      batches = Batch.objects.all()
-      faculty_list = employee.objects.all()
-      student_list = StudentRegistration.objects.all()
-      return render(request, 'batches.html',{'batches': batches,'faculty_list': faculty_list, 'student_list': student_list})
-
+    batches = Batch.objects.all()
+    faculty_list = employee.objects.all()
+    student_list = StudentRegistration.objects.all()
+    return render(request, 'batches.html', {'batches': batches, 'faculty_list': faculty_list, 'student_list': student_list})
 
 def create_batch(request):
-    # Display the form for GET request
     if request.method == 'GET':
         faculty_list = employee.objects.all()
         student_list = StudentRegistration.objects.all()
         return render(request, 'create_batch.html', {'faculty_list': faculty_list, 'student_list': student_list})
 
-    # Process the form for POST request
     elif request.method == 'POST':
         batch_name = request.POST['batch_name']
         faculty_id = request.POST['faculty']
-        students_ids = request.POST.getlist('students')  # Use getlist to get multiple values
-        start_time = request.POST['start_time']
-        end_time = request.POST['end_time']
+        students_ids = request.POST.getlist('students')
 
         try:
             faculty = employee.objects.get(id=faculty_id)
@@ -282,14 +278,46 @@ def create_batch(request):
         new_batch = Batch.objects.create(
             batch_name=batch_name,
             faculty=faculty,
-            start_time=start_time,
-            end_time=end_time
+            start_time=request.POST['start_time'],
+            end_time=request.POST['end_time']
         )
 
-        # Use set() method to handle many-to-many relationship
         new_batch.students.set(students)
 
         return redirect('batches')
+
+def update_batch(request, batch_id):
+    try:
+        batch = Batch.objects.get(batch_id=batch_id)
+    except Batch.DoesNotExist:
+        return render(request, 'error.html', {'error_message': 'Invalid Batch ID'})
+
+    if request.method == 'GET':
+        faculty_list = employee.objects.all()
+        student_list = StudentRegistration.objects.all()
+        return render(request, 'update_batch.html', {'batch': batch, 'faculty_list': faculty_list, 'student_list': student_list})
+
+    elif request.method == 'POST':
+        batch.batch_name = request.POST['batch_name']
+        batch.faculty_id = request.POST['faculty']
+        students_ids = request.POST.getlist('students')
+
+        try:
+            faculty = employee.objects.get(id=batch.faculty_id)
+        except employee.DoesNotExist:
+            return render(request, 'error.html', {'error_message': 'Invalid faculty ID'})
+
+        students = StudentRegistration.objects.filter(id__in=students_ids)
+
+        batch.start_time = request.POST['start_time']
+        batch.end_time = request.POST['end_time']
+        batch.save()
+
+        batch.students.set(students)
+
+        return redirect('batches')
+
+
 
 def delete_request(request, leave_id):
     get_leave = LeaveRequest.objects.get(id=leave_id)
@@ -298,4 +326,71 @@ def delete_request(request, leave_id):
 
 
 def profile_view(request):
-    return render(request, 'profile.html')
+    employees = employee.objects.all()
+    context = {
+        'employees':employees,
+    }
+    return render(request, 'profile.html',context)
+
+def update_profile(request,employee_id):
+    employee_instance = get_object_or_404(employee, employee_id=employee_id)
+
+    if request.method == 'POST':
+
+        employee_instance.first_name = request.POST.get('first_name')
+        employee_instance.last_name = request.POST.get('last_name')
+        employee_instance.email = request.POST.get('email')
+        employee_instance.mobile = request.POST.get('mobile')
+
+        employee_instance.save()
+
+        return redirect('profile_view')
+    
+    context = {
+        'employee':employee_instance,
+    }
+
+    return render(request, 'update_profile.html',context)
+
+def social_list(request):
+    socials = Socials.objects.all()
+    context = {
+         'socials':socials,
+    }
+    return render(request,"social.html",context)
+
+def create_post(request):
+    if request.method == "POST":
+        content = request.POST['content']
+        profile = request.FILES['profile']
+
+        new_post = Socials.objects.create(
+            content=content,
+            profile=profile,
+        )
+        new_post.save()
+
+        return redirect('social_list')
+    return render(request,"create_post.html")
+
+def edit_post(request, post_id):
+    existing_post = get_object_or_404(Socials, id=post_id)
+
+    if request.method == "POST":
+        existing_post.content = request.POST.get('content', '')
+        if 'profile' in request.FILES:
+            existing_post.profile = request.FILES['profile']
+
+        existing_post.save()
+        return redirect('social_list')
+
+    context = {
+        'content': existing_post.content,
+        'profile': existing_post.profile,
+    }
+    return render(request, "update_post.html", context)
+
+def delete_post(request,post_id):
+    get_post = Socials.objects.get(id=post_id)
+    get_post.delete()
+    return redirect('social_list')

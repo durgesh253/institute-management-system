@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 
-from .models import role, employee, StudentRegistration, LeaveRequest,LeaveType,Batch
+from .models import role, employee, StudentRegistration, LeaveRequest,LeaveType,Batch,Socials
 # Register your models here.
 
 admin.site.unregister(Group)
@@ -41,3 +41,4 @@ admin.site.register(StudentRegistration)
 admin.site.register(LeaveRequest)
 admin.site.register(LeaveType)
 admin.site.register(Batch)
+admin.site.register(Socials)
